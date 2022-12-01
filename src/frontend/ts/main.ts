@@ -3,56 +3,40 @@ declare const M;
 class Main implements EventListenerObject, HandleResponse{
  
     private framework: Framework = new Framework();
-    private personas: Array<Persona> =new Array();
-    constructor(per:Persona) {
-        this.personas.push(per);
 
-        console.log(this);
-    }
-    public addPersona(per: Persona) {
-        this.personas.push(per);
-    }
-    public getPersona(){
-        return this.personas;
-    }
-
-    cosultarDispositivoAlServidor() {
-
+    getDevicesFromServer() {
         this.framework.ejecutarRequest("GET", "http://localhost:8000/devices",this);
     }
 
-
     cambiarEstadoDispositivoAlServidor() {
-        let json = { id: 1, state: 0 };
-        this.framework.ejecutarRequest("POST", "http://localhost:8000/deviceChange",this,json);
-        
+        //let json = { id: 1, state: 0 };
+        //this.framework.ejecutarRequest("POST", "http://localhost:8000/deviceChange",this,json);
     }
-    cargarGrilla(listaDisp: Array<Device>) {
-        console.log("llego info del servidor", listaDisp);    
-        let cajaDips = document.getElementById("cajaDisp");
-        let grilla:string = "<ul class='collection'>";
-        for (let disp of listaDisp) {
-        
 
-            grilla += ` <li class="collection-item avatar">`;
+    cargarGrilla(devices: Array<Device>) {
+        let cajaDips = document.getElementById("devices");
+        let grilla:string = "<div class='row'>";
+
+        for (let device of devices) {
+            grilla += `<div class="col s12 m6 l3"><div style="background-color: #3174df;">`;
             
-            if (disp.type == 1) {
+            if (device.type == 1) {
                 grilla+=`<img src="static/images/lightbulb.png" alt="" class="circle"> `   
             } else {
                 grilla+=`<img src="static/images/window.png" alt="" class="circle"> `  
             }
             
-            grilla += ` <span class="title negrita">${disp.name}</span>
-            <p>${disp.description}
+            grilla += ` <span class="title negrita">${device.name}</span>
+            <p>${device.description}
             </p>
             <a href="#!" class="secondary-content">
               <div class="switch">
                   <label>
                     Off`;
-            if (disp.state) {
-                grilla += `<input id="cb_${disp.id}" miAtt="mi dato 1" type="checkbox" checked>`;    
+            if (device.state) {
+                grilla += `<input id="cb_${device.id}" miAtt="mi dato 1" type="checkbox" checked>`;    
             } else {
-                grilla += `<input id="cb_${disp.id}" miAtt="mi dato 2" type="checkbox">`;    
+                grilla += `<input id="cb_${device.id}" miAtt="mi dato 2" type="checkbox">`;    
             }
             
             
@@ -61,106 +45,34 @@ class Main implements EventListenerObject, HandleResponse{
                   </label>
                 </div>
           </a>
-          </li>`;
+          </div></div>`;
         }
-        grilla += "</ul>"
+        grilla += "</div>"
         
         cajaDips.innerHTML = grilla;
 
-        for (let disp of listaDisp) {
-            let cb = document.getElementById("cb_" + disp.id);
+        for (let device of devices) {
+            let cb = document.getElementById("cb_" + device.id);
             cb.addEventListener("click", this);
         }
-        
-        this.framework.ocultarCargando();
-        
     }
 
-    handleEvent(object: Event): void {
-     
+    handleEvent(object: Event): void {     
         let tipoEvento: string = object.type;
-       
         let objEvento: HTMLElement;
         objEvento = <HTMLElement>object.target;
-        
-        if (objEvento.id == "btnOtro") {
-            console.log(objEvento.id, objEvento.textContent);
-            
-            let iNombre = <HTMLInputElement>document.getElementById("iNombre");
-            
-            objEvento.textContent = iNombre.value;
-            alert("hola " + this.personas[0].getNombre() + " estoy en el main");
-        } else if (objEvento.id == "btnSaludar") {
-          
-            this.framework.mostrarCargando();
-            this.cosultarDispositivoAlServidor();
-
-      
-        } else if (objEvento.id.startsWith("cb_")) {
-            let idDisp = objEvento.id.substring(3);
-            
-            
-            alert("Se cambio el estado del dispositivo " + idDisp + " -" + (<HTMLInputElement>objEvento).checked);
-
-       
-            
-        } else {
-            objEvento = <HTMLElement>objEvento.parentElement;
-        
-            if (objEvento.id == "btnAdd") {
-                M.toast({html: 'Se agrego', classes: 'rounded'});
-                let elementoTxtNombre = <HTMLInputElement>document.getElementById("txtNombre");
-                
-                console.log(elementoTxtNombre.value);
-                let elementoSelectColor = <HTMLSelectElement>document.getElementById("selectColores");
-                var instance = M.FormSelect.getInstance(elementoSelectColor);
-                console.log(instance.getSelectedValues())
-
-
-
-
-            }
+        if (objEvento.id == "btnSaludar") {
             
         }
-
     }
 }
 
 window.addEventListener("load", () => {
-
-   var elems = document.querySelectorAll('select');
-   var instances = M.FormSelect.init(elems, "");
-
-    M.updateTextFields();
+    let main: Main = new Main();
+    main.getDevicesFromServer();
     
-    var elemsM = document.querySelectorAll('.modal');
-    var instances = M.Modal.init(elemsM, "");
-
-    let user: Usuario = new Usuario("Juan","jperez","jperez@gmail.com");
-    let per1 = new Persona("Matias")
-    per1.edad = 12;
-    let main: Main = new Main(per1);
-    main.addPersona(new Persona("Pepe"));
-    mostrar(main);
-    let btn = document.getElementById("btnSaludar");
-    btn.addEventListener("click", main);
-    let btn2 = document.getElementById("btnOtro");
-    btn2.addEventListener("click", main);
-    let btnAdd = document.getElementById("btnAdd");
-    btnAdd.addEventListener("click", main);
-    console.log(btnAdd);
+    //let btn = document.getElementById("btnSaludar");
+    //btn.addEventListener("click", main);
     
 });
-
-
-function mostrar(main: Main) {
-    let personas = main.getPersona();
-    let datosPersonas = "";
-    for (let i in personas) {
-        datosPersonas = datosPersonas + personas[i].toString();
-        
-    }
-
-
-}
 
