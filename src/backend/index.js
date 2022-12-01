@@ -24,7 +24,7 @@ app.get('/devices/:id', function(req, res, next) {
                 res.send(err).status(400);
                 return;
             }
-            res.send(JSON.stringify(rta[0])).status(200);
+            res.send(JSON.stringify(rta)).status(200);
         }
     );
 });
@@ -37,7 +37,7 @@ app.post('/devices/', function(req, res, next) {
                 res.send(err).status(400);
                 return;
             }
-            res.send(JSON.stringify({ 'id': rta.insertId })).status(201);
+            res.send({ 'id': rta.insertId }).status(201);
         }
     );
 });
@@ -50,7 +50,7 @@ app.put('/devices/:id', function(req, res, next) {
                 res.send(err).status(400);
                 return;
             }
-            res.send(JSON.stringify(rta)).status(200);
+            res.send({ 'changedRows': rta.changedRows }).status(200);
         }
     );
 });
@@ -62,7 +62,7 @@ app.delete('/devices/:id', function(req, res, next) {
                 res.send(err).status(400);
                 return;
             }
-            res.send("deleted ok").status(200);
+            res.send("deleted").status(200);
         }
     );
 });
