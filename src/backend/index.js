@@ -8,7 +8,7 @@ app.use(express.json());
 app.use(express.static('/home/node/app/static/'));
 
 app.get('/devices/', function(req, res, next) {
-    utils.query('select * from smart_home.Devices', function(err, rta, field) {
+    utils.query('SELECT * FROM Devices', function(err, rta, field) {
         if (err) {
             res.send(err).status(400);
             return;
@@ -18,28 +18,53 @@ app.get('/devices/', function(req, res, next) {
 });
 
 app.get('/devices/:id', function(req, res, next) {
-    utils.query('select * from smart_home.Devices d where d.id = ?',req.params.id, function(err, rta, field) {
-        if (err) {
-            res.send(err).status(400);
-            return;
+    utils.query('SELECT * FROM Devices WHERE id = ?',req.params.id,
+        function(err, rta, field) {
+            if (err) {
+                res.send(err).status(400);
+                return;
+            }
+            res.send(JSON.stringify(rta[0])).status(200);
         }
-        res.send(JSON.stringify(rta[0])).status(200);
-    });
+    );
 });
 
 app.post('/devices/', function(req, res, next) {
-    
-    res.send(JSON.stringify(req.body)).status(201);
+    utils.query('INSERT INTO `Devices` (`name`, `description`, `state`, `type`) VALUES (?, ?, ?, ?)',
+        [req.body.name, req.body.description, req.body.state, req.body.type],
+        function(err, rta, field) {
+            if (err) {
+                res.send(err).status(400);
+                return;
+            }
+            res.send(JSON.stringify({ 'id': rta.insertId })).status(201);
+        }
+    );
 });
 
 app.put('/devices/:id', function(req, res, next) {
-    
-    res.send(JSON.stringify(req.params)).status(200);
+    utils.query('UPDATE `Devices` SET `name` = ?, `description` = ?, `state` = ?, `type` = ? WHERE id = ?',
+        [req.body.name, req.body.description, req.body.state, req.body.type, req.params.id],
+        function(err, rta, field) {
+            if (err) {
+                res.send(err).status(400);
+                return;
+            }
+            res.send(JSON.stringify(rta)).status(200);
+        }
+    );
 });
 
 app.delete('/devices/:id', function(req, res, next) {
-    
-    res.send(JSON.stringify(req.params)).status(200);
+    utils.query('DELETE FROM Devices WHERE id = ?',req.params.id,
+        function(err, rta, field) {
+            if (err) {
+                res.send(err).status(400);
+                return;
+            }
+            res.send("deleted ok").status(200);
+        }
+    );
 });
 
 app.listen(PORT, function(req, res) {
