@@ -18,7 +18,10 @@ class Main implements EventListenerObject, HandleResponse{
         let grilla:string = "<div class='row'>";
 
         for (let device of devices) {
-            grilla += `<div class="col s12 m6 l3"><div style="background-color: #3174df;">`;
+            grilla += `<div class="col s12 m6 l3"  style="
+            padding: .75rem .75rem;"><div style="border: #3174df;
+                                                              border-width: 3px;
+                                                              border-style: solid;">`;
             
             if (device.type == 1) {
                 grilla+=`<img src="static/images/lightbulb.png" alt="" class="circle"> `   
@@ -29,22 +32,14 @@ class Main implements EventListenerObject, HandleResponse{
             grilla += ` <span class="title negrita">${device.name}</span>
             <p>${device.description}
             </p>
-            <a href="#!" class="secondary-content">
               <div class="switch">
-                  <label>
-                    Off`;
+                  <label>`;
             if (device.state) {
-                grilla += `<input id="cb_${device.id}" miAtt="mi dato 1" type="checkbox" checked>`;    
+                grilla += `<input disabled type="checkbox" checked>`;    
             } else {
-                grilla += `<input id="cb_${device.id}" miAtt="mi dato 2" type="checkbox">`;    
+                grilla += `<input disabled type="checkbox">`;    
             }
-            
-            
-            grilla +=`<span class="lever"></span>
-                    On
-                  </label>
-                </div>
-          </a>
+            grilla +=`<span class="lever"></span></label></div>
           </div></div>`;
         }
         grilla += "</div>"
