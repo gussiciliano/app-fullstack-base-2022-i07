@@ -13,8 +13,17 @@ class Main implements EventListenerObject, HandleResponse{
     }
 
     addNewDeviceFromServer(name: string, description: string, type: string) {
-        let newDevie = { name: name, description: description,  type: type, state: 1};
-        this.framework.ejecutarAgregarRequest("POST", `http://localhost:8000/devices`,this, newDevie);
+        let newDevice = { name: name, description: description,  type: type, state: 1};
+        this.framework.ejecutarAgregarRequest("POST", `http://localhost:8000/devices`,this, newDevice);
+    }
+
+    editDeviceFromServer(idDisp: number, name: string, description: string, type: string, state: number) {
+        let editedDevice = { name: name, description: description,  type: type, state: state};
+        this.framework.ejecutarAgregarRequest("PUT", `http://localhost:8000/devices/${idDisp}`,this, editedDevice);
+    }
+
+    getDeviceFromServer(idDisp: number, petition: string){
+        return this.framework.ejecutarTraerRequest("GET", `http://localhost:8000/devices/${idDisp}`,this, petition);
     }
 
     refreshAndCloseModal(idModal: string){
@@ -67,22 +76,67 @@ class Main implements EventListenerObject, HandleResponse{
         }
     }
 
+    cargarDevice(device: Device, petition: string){
+        if(petition == "edit"){
+            (<HTMLInputElement>document.getElementById("edit-id-disp")).value = device.id.toString();
+            (<HTMLInputElement>document.getElementById("edit-name")).value = device.name;
+            (<HTMLInputElement>document.getElementById("edit-description")).value = device.description;
+            (<HTMLInputElement>document.getElementById("edit-status")).checked = device.state;
+
+            let select = document.getElementById("select-edit-type");
+            var instanceSelect = M.FormSelect.getInstance(select);
+            (<HTMLInputElement>select).value = device.type.toString();
+            instanceSelect.destroy();
+            M.FormSelect.init(select, "");
+        
+        } else if(petition == "delete"){
+            document.getElementById("id-borrar").innerHTML = device.id.toString();
+            document.getElementById("nombre-borrar").innerHTML = device.name;
+            (<HTMLInputElement>document.getElementById("input-id-borrar")).value = device.id.toString();
+        }
+    }
+
     handleEvent(object: Event): void {
         let tipoEvento: string = object.type;
         let objEvento: HTMLElement;
         objEvento = <HTMLElement>object.target;
         if (objEvento.id.startsWith("editar_")) {
-            let idDisp = objEvento.id.substring(7);
-            alert(idDisp);
+            let idDisp: number = +objEvento.id.substring(7);
+            this.getDeviceFromServer(idDisp, "edit");
+            
+            let modalEditar = document.getElementById("modal-editar")
+            var instanceModalEditar = M.Modal.getInstance(modalEditar);
+            instanceModalEditar.open();
         
         } else if (objEvento.id.startsWith("borrar_")) {
-            let idDisp = objEvento.id.substring(7);
-            document.getElementById("id-borrar").innerHTML = idDisp;
-            document.getElementById("nombre-borrar").innerHTML = "ss";
-            (<HTMLInputElement>document.getElementById("input-id-borrar")).value = idDisp;
+            let idDisp: number = +objEvento.id.substring(7);
+            this.getDeviceFromServer(idDisp, "delete");
+            
             let modalBorrar = document.getElementById("modal-borrar")
             var instanceModalBorrar = M.Modal.getInstance(modalBorrar);
             instanceModalBorrar.open();
+
+        //EDITAR
+        } else if (objEvento.id == "cancelar-modal-editar") {
+            let modalEditar = document.getElementById("modal-editar");
+            let instanceModalEditar= M.Modal.getInstance(modalEditar);
+            instanceModalEditar.close();
+
+        } else if (objEvento.id == "confirmar-modal-editar") {
+            let idDisp: number = +(<HTMLInputElement>document.getElementById("edit-id-disp")).value;
+            let name = (<HTMLInputElement>document.getElementById("edit-name")).value;
+            let description = (<HTMLInputElement>document.getElementById("edit-description")).value;
+            let type = (<HTMLInputElement>document.getElementById("select-edit-type")).value;
+            let state = 0;
+            if((<HTMLInputElement>document.getElementById("edit-status")).checked){
+                state = 1;
+            }
+            if(idDisp && name && description && type) {
+                this.editDeviceFromServer(idDisp, name, description, type, state);
+                this.refreshAndCloseModal("modal-editar")
+            } else {
+                alert("complete todos los campos");
+            }   
 
         //AGREGAR
         } else if (objEvento.id == "cancelar-modal-agregar") {
@@ -130,5 +184,8 @@ window.addEventListener("load", () => {
 
     document.getElementById("confirmar-modal-agregar").addEventListener("click", main);
     document.getElementById("cancelar-modal-agregar").addEventListener("click", main);
+
+    document.getElementById("confirmar-modal-editar").addEventListener("click", main);
+    document.getElementById("cancelar-modal-editar").addEventListener("click", main);
 });
 

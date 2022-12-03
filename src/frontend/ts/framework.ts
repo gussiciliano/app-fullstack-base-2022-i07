@@ -49,6 +49,22 @@ class Framework{
     }
   }
 
+  public ejecutarTraerRequest(metodo: string, url: string, responseHandler:HandleResponse, petition: string) {
+    let xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = () => {
+      if (xmlHttp.readyState == 4) {
+        if (xmlHttp.status == 200) {
+          let device: Device = JSON.parse(xmlHttp.responseText);
+          responseHandler.cargarDevice(device[0], petition);
+        } else {
+          alert("ERROR en la consulta");
+        }
+      }
+    }
+    xmlHttp.open(metodo, url, true);
+    xmlHttp.send();
+  }
+
   public mostrarCargando() {
     let imgLoading = document.getElementById("loading");
     imgLoading.hidden = false;

@@ -26,7 +26,7 @@
                 <h3 >Devices dashboard</h3>
                 <br/>
                 <div class="row">
-                    <a class="waves-effect waves-light btn modal-trigger" href="#modal-agregar">Abrir</a>
+                    <a class="waves-effect waves-light btn modal-trigger" href="#modal-agregar">Agregar</a>
                 </div>
                 <div id="devices">
                 </div>
@@ -62,7 +62,7 @@
                 justify-content: center;">
                 <input hidden id="input-id-borrar"/>
                 <button style="margin: 20px;" class="btn red waves-effect waves-light button-view" id="confirmar-modal-borrar">Borrar</button>
-                <button style="margin: 20px;" class="btn waves-effect waves-light button-view" id="cancelar-modal-borrar">Cancelar</button>
+                <button style="margin: 20px;" class="btn grey waves-effect waves-light button-view" id="cancelar-modal-borrar">Cancelar</button>
             </div>
         </div>
 
@@ -90,9 +90,50 @@
             <div class="modal-footer" style="display: flex;
             align-items: center;
             justify-content: center;">
-                <button style="margin: 20px;" class="btn red waves-effect waves-light button-view" id="confirmar-modal-agregar">Guardar</button>
-                <button style="margin: 20px;" class="btn waves-effect waves-light button-view" id="cancelar-modal-agregar">Cancelar</button>
+                <button style="margin: 20px;" class="btn blue waves-effect waves-light button-view" id="confirmar-modal-agregar">Guardar</button>
+                <button style="margin: 20px;" class="btn grey waves-effect waves-light button-view" id="cancelar-modal-agregar">Cancelar</button>
             </div>
-          </div>
+        </div>
+
+        <div id="modal-editar" class="modal">
+            <div class="modal-content">
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input placeholder="Placeholder" id="edit-name" type="text" class="validate">
+                        <label for="edit-name">Nombre</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input placeholder="Placeholder" id="edit-description" type="text" class="validate">
+                        <label for="edit-description">Descripcion</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <label>Estado del dispositivo</label>
+                        <br/><br/>
+                        <div class="switch">
+                            <label>
+                                Off
+                                <input id="edit-status" type="checkbox">
+                                <span class="lever"></span>
+                                On
+                            </label>
+                        </div>
+                    </div> 
+                    <div class="input-field col s6" style="margin-top: 30px;">
+                        <select id="select-edit-type">
+                            <option value="0">Ventana</option>
+                            <option value="1">Luz</option>
+                        </select>
+                        <label>Tipo del dispositivo</label>
+                    </div>
+                </div>
+                <input hidden id="edit-id-disp"/>
+            </div>
+            <div class="modal-footer" style="display: flex;
+            align-items: center;
+            justify-content: center;">
+                <button style="margin: 20px;" class="btn blue waves-effect waves-light button-view" id="confirmar-modal-editar">Guardar</button>
+                <button style="margin: 20px;" class="btn grey waves-effect waves-light button-view" id="cancelar-modal-editar">Cancelar</button>
+            </div>
+        </div>
     </body>
   </html>
