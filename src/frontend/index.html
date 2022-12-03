@@ -29,21 +29,6 @@
                     <a class="waves-effect waves-light btn modal-trigger" href="#modalAlta">Abrir</a>
                 </div>
                 <div id="devices">
-
-                </div>
-                <div class="row">
-                
-                <!--        <div class="input-field col s12 m12 l12 xl12">
-                        <input id="iNombre" value="texto por defecto"/>
-                        <textarea id="textarea_1" class="materialize-textarea" style="height: 150px;" >xxxx</textarea>
-                    </div>-->
-                    <div class="col s12 m4 l2 xl2">
-                        <button class="btn waves-effect waves-light button-view" id="btnSaludar" name="hello_button">PRESS ME</button>
-                      
-                    </div>
-                    <div class="col s12 xl2">
-                        <button class="btn waves-effect waves-light button-view" id="btnOtro" name="hello_button">Otro</button>
-                    </div>
                 </div>
             </div>	
         </main>
@@ -63,6 +48,23 @@
         </footer>
 		<!--JavaScript at end of body for optimized loading-->
 	
+        <div id="modal-borrar" class="modal" style="width: 25%;">
+            <div class="modal-content">
+                <div class="row">
+                    <p>¿Seguro quiere borrar el siguiente dispositivo?</p>
+                    <span>Nro: </span><span id="id-borrar"></span>
+                    <br/>
+                    <span>Nommbre: </span><span id="nombre-borrar"></span>
+                </div>
+            </div>
+            <div class="modal-footer" style="display: flex;
+                align-items: center;
+                justify-content: center;">
+                <input hidden id="input-id-borrar"/>
+                <button style="margin: 20px;" class="btn red waves-effect waves-light button-view" id="confirmar-modal-borrar">Borrar</button>
+                <button style="margin: 20px;" class="btn waves-effect waves-light button-view" id="cancelar-modal-borrar">Cancelar</button>
+            </div>
+        </div>
 
         <div id="modalAlta" class="modal">
             <div class="modal-content">
@@ -80,14 +82,13 @@
                         <input id="txtNombre" type="text" class="validate">
                         <label for="txtNombre">Nombre</label>
                       </div>
-
-                   
                 </div>
             </div>
-            <div class="modal-footer">
-                <a id="btnAdd" class="btn-floating btn-large waves-effect waves-light red">
-                    <i class="material-icons">add</i>
-                </a>
+            <div class="modal-footer" style="display: flex;
+            align-items: center;
+            justify-content: center;">
+                <button style="margin: 20px;" class="btn red waves-effect waves-light button-view">Borrar</button>
+                <button style="margin: 20px;" class="btn waves-effect waves-light button-view">Cancelar</button>
             </div>
           </div>
     </body>
