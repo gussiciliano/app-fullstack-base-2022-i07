@@ -1,6 +1,6 @@
 class Framework{
 
-  public ejecutarRequest(metodo: string, url: string, responseHandler:HandleResponse, data?: any) {
+  public ejecutarRequest(metodo: string, url: string, responseHandler:HandleResponse) {
     let xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = () => {
       if (xmlHttp.readyState == 4) {
@@ -13,15 +13,25 @@ class Framework{
       }
     }
     xmlHttp.open(metodo, url, true);
-    if (data != undefined) {
-      xmlHttp.setRequestHeader("Content-Type", "application/json");  
-      xmlHttp.send(JSON.stringify(data));
-    } else {
-      xmlHttp.send();
-    }
+    xmlHttp.send();
   }
 
-  public ejecutarDeleteRequest(metodo: string, url: string, responseHandler:HandleResponse, data?: any) {
+  public ejecutarDeleteRequest(metodo: string, url: string, responseHandler:HandleResponse) {
+    let xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = () => {
+      if (xmlHttp.readyState == 4) {
+        if (xmlHttp.status == 200) {
+          console.log(xmlHttp.responseText);
+        } else {
+          alert("ERROR en la consulta");
+        }
+      }
+    }
+    xmlHttp.open(metodo, url, true);
+    xmlHttp.send();
+  }
+
+  public ejecutarAgregarRequest(metodo: string, url: string, responseHandler:HandleResponse, data: any) {
     let xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = () => {
       if (xmlHttp.readyState == 4) {
@@ -36,8 +46,6 @@ class Framework{
     if (data != undefined) {
       xmlHttp.setRequestHeader("Content-Type", "application/json");  
       xmlHttp.send(JSON.stringify(data));
-    } else {
-      xmlHttp.send();
     }
   }
 

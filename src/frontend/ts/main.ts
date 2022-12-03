@@ -12,6 +12,18 @@ class Main implements EventListenerObject, HandleResponse{
         this.framework.ejecutarDeleteRequest("DELETE", `http://localhost:8000/devices/${idDisp}`,this);
     }
 
+    addNewDeviceFromServer(name: string, description: string, type: string) {
+        let newDevie = { name: name, description: description,  type: type, state: 1};
+        this.framework.ejecutarAgregarRequest("POST", `http://localhost:8000/devices`,this, newDevie);
+    }
+
+    refreshAndCloseModal(idModal: string){
+        this.getDevicesFromServer();
+        let modal = document.getElementById(idModal);
+        let instanceModal = M.Modal.getInstance(modal);
+        instanceModal.close();
+    }
+
     cargarGrilla(devices: Array<Device>) {
         let cajaDips = document.getElementById("devices");
         let grilla:string = "<div class='row'>";
@@ -72,20 +84,33 @@ class Main implements EventListenerObject, HandleResponse{
             var instanceModalBorrar = M.Modal.getInstance(modalBorrar);
             instanceModalBorrar.open();
 
+        //AGREGAR
+        } else if (objEvento.id == "cancelar-modal-agregar") {
+            let modalAgregar = document.getElementById("modal-agregar");
+            let instanceModalAgregar = M.Modal.getInstance(modalAgregar);
+            instanceModalAgregar.close();
+
+        } else if (objEvento.id == "confirmar-modal-agregar") {
+            let name = (<HTMLInputElement>document.getElementById("txt-name")).value;
+            let description = (<HTMLInputElement>document.getElementById("txt-description")).value;
+            let type = (<HTMLInputElement>document.getElementById("select-type")).value;
+            if(name && description && type) {
+                this.addNewDeviceFromServer(name, description, type);
+                this.refreshAndCloseModal("modal-agregar")
+            } else {
+                alert("complete todos los campos");
+            }
+
+        //BORRAR
         } else if (objEvento.id == "cancelar-modal-borrar") {
             let modalBorrar = document.getElementById("modal-borrar");
-            var instanceModalBorrar = M.Modal.getInstance(modalBorrar);
+            let instanceModalBorrar = M.Modal.getInstance(modalBorrar);
             instanceModalBorrar.close();
         
         } else if (objEvento.id == "confirmar-modal-borrar") {
-            var idDispToDelete: number = +(<HTMLInputElement>document.getElementById("input-id-borrar")).value;
+            let idDispToDelete: number = +(<HTMLInputElement>document.getElementById("input-id-borrar")).value;
             this.deleteDeviceFromServer(idDispToDelete);
-
-            this.getDevicesFromServer();
-            
-            let modalBorrar = document.getElementById("modal-borrar");
-            var instanceModalBorrar = M.Modal.getInstance(modalBorrar);
-            instanceModalBorrar.close();
+            this.refreshAndCloseModal("modal-borrar");
         }
     }
 }
@@ -96,8 +121,14 @@ window.addEventListener("load", () => {
     
     var elemsM = document.querySelectorAll('.modal');
     M.Modal.init(elemsM, "");
+
+    var elemsSelect = document.querySelectorAll('select');
+    M.FormSelect.init(elemsSelect, "");
     
     document.getElementById("confirmar-modal-borrar").addEventListener("click", main);
     document.getElementById("cancelar-modal-borrar").addEventListener("click", main);
+
+    document.getElementById("confirmar-modal-agregar").addEventListener("click", main);
+    document.getElementById("cancelar-modal-agregar").addEventListener("click", main);
 });
 

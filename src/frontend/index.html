@@ -26,7 +26,7 @@
                 <h3 >Devices dashboard</h3>
                 <br/>
                 <div class="row">
-                    <a class="waves-effect waves-light btn modal-trigger" href="#modalAlta">Abrir</a>
+                    <a class="waves-effect waves-light btn modal-trigger" href="#modal-agregar">Abrir</a>
                 </div>
                 <div id="devices">
                 </div>
@@ -66,29 +66,32 @@
             </div>
         </div>
 
-        <div id="modalAlta" class="modal">
+        <div id="modal-agregar" class="modal">
             <div class="modal-content">
                 <div class="row">
-                    <div class="input-field col s6">
-                        <select multiple id="selectColores">
-                          <option value="" disabled selected>Seleccione</option>
-                          <option value="rojo">Rojo</option>
-                          <option value="verde">Verde</option>
-                          <option value="azul">Azul</option>
-                        </select>
-                        <label>Color de luz</label>
+                      <div class="input-field col s6">
+                        <input id="txt-name" type="text" class="validate">
+                        <label for="txt-name">Nombre</label>
                       </div>
                       <div class="input-field col s6">
-                        <input id="txtNombre" type="text" class="validate">
-                        <label for="txtNombre">Nombre</label>
+                        <input id="txt-description" type="text" class="validate">
+                        <label for="txt-description">Descripcion</label>
+                      </div>
+                      <div class="input-field col s6">
+                        <select id="select-type">
+                          <option value="" disabled selected>Seleccione</option>
+                          <option value="0">Ventana</option>
+                          <option value="1">Luz</option>
+                        </select>
+                        <label>Tipo de dispositivo</label>
                       </div>
                 </div>
             </div>
             <div class="modal-footer" style="display: flex;
             align-items: center;
             justify-content: center;">
-                <button style="margin: 20px;" class="btn red waves-effect waves-light button-view">Borrar</button>
-                <button style="margin: 20px;" class="btn waves-effect waves-light button-view">Cancelar</button>
+                <button style="margin: 20px;" class="btn red waves-effect waves-light button-view" id="confirmar-modal-agregar">Guardar</button>
+                <button style="margin: 20px;" class="btn waves-effect waves-light button-view" id="cancelar-modal-agregar">Cancelar</button>
             </div>
           </div>
     </body>
