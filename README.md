@@ -3,6 +3,39 @@
 </a>
 
 Web App Full Stack Base
+
+Desarrollo de Gustavo Hernan Siciliano, estudiante de CEIoT.
+
+Para correr la aplicación se tiene que clonar el repositorio desde master y correr el comando:
+`docker-compose up`
+
+Funcionalidades:
+
+Se desarrolló el ABM completo de los dispositivos, agregando el atributo de la intensidad de la luz.
+
+Backend:
+
+GET http://localhost:8000/devices
+GET http://localhost:8000/devices/:id
+POST http://localhost:8000/devices (enviando en json body del objeto device sin contar id y status)
+PUT http://localhost:8000/devices/:id (enviando en json body del objeto device sin contar id)
+DELETE http://localhost:8000/devices/:id
+
+El Backend está integrado con la DB de Docker.
+
+(las pruebas del Backend se realizaron en Postman)
+
+Frontend:
+
+Se utilizó materialize y los patrones vistos en el curso. El front está totalmente integrado con el Backend.
+
+Al entrar se pueden ver todos los dispositivos, más un botón de AGREGAR para crear uno nuevo. En cada dispositivo hay dos botones, uno para EDITAR y otro para BORRAR.
+
+Los tres botones mencioandos abren un Modal para realizar las operaciones, todo se hace con Ajax siguiendo el modelo de SPA.
+
+
+COMENTARIO: Al momento se tiene un error al levantar Docker, cuando se inicia la aplicación, con docker-compose up, parece que no se reconoce la línea `var utils   = require('./mysql-connector');` del archivo index.js. Si esa línea se comenta, se guarda el cambio, se descomenta y se vuelve a guardar el cambio, la aplicación si reconoce la línea y todo funciona correctamente. Este problema se mandó en el mail con asunto `CEIoT - DdAWeb - Problema con Docker`
+
 =======================
 
 *Ayudaría mucho si apoyaras este proyecto con una ⭐ en Github!*
