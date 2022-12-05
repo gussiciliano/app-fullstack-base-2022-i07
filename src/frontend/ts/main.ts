@@ -35,37 +35,38 @@ class Main implements EventListenerObject, HandleResponse{
 
     cargarGrilla(devices: Array<Device>) {
         let cajaDips = document.getElementById("devices");
+        //Div inicial
         let grilla:string = "<div class='row'>";
-
         for (let device of devices) {
-            grilla += `<div class="col s12 m6 l3"  style="
-            padding: .75rem .75rem;"><div style="border: #3174df;
-                                                              border-width: 3px;
-                                                              border-style: solid;"><div class="card" style="margin:0;"><div class="card-content">`;
-            
+            grilla +=   `<div class="col s12 m6 l3 custom-padding">
+                            <div class="device-container">
+                                <div class="card margin-zero">
+                                    <div class="card-content">`;            
             if (device.type == 1) {
                 grilla+=`<img src="static/images/lightbulb.png" alt="" class="circle"> `   
             } else {
                 grilla+=`<img src="static/images/window.png" alt="" class="circle"> `  
             }
-            
-            grilla += ` <span style="vertical-align: top;" class="title negrita">${device.name}</span>
-            <p>${device.description}
-            </p>
-              <div class="switch">
-                  <label>`;
+            grilla += ` <span class="span-vertical title negrita">${device.name}</span>
+                        <p>${device.description}</p>
+                        <div class="switch">
+                            <label>`;
             if (device.state) {
                 grilla += `<input disabled type="checkbox" checked>`;    
             } else {
                 grilla += `<input disabled type="checkbox">`;    
             }
-            grilla +=`<span class="lever"></span></label></div>
-          </div><div class="card-action">
-          <button style="padding: 0 10px;" class="btn waves-effect waves-light button-view" id="editar_${device.id}">Editar</button>
-          <button style="padding: 0 10px;" class="btn waves-effect waves-light button-view" id="borrar_${device.id}">Borrar</button>
-        </div></div></div>
-      </div>`;
+            grilla +=`<span class="lever"></span>
+                     </label>
+                     </div>
+                </div>
+                <div class="card-action">
+                    <button class="btn-padding btn waves-effect waves-light button-view" id="editar_${device.id}">Editar</button>
+                    <button class="btn-padding btn waves-effect waves-light button-view" id="borrar_${device.id}">Borrar</button>
+                </div>
+            </div></div></div>`;
         }
+        //Div final
         grilla += "</div>"
         
         cajaDips.innerHTML = grilla;
@@ -96,31 +97,34 @@ class Main implements EventListenerObject, HandleResponse{
         }
     }
 
+    openModal(id: string) {
+        let modal = document.getElementById(id)
+        var instanceModal = M.Modal.getInstance(modal);
+        instanceModal.open();
+    }
+
+    closeModal(id: string) {
+        let modal = document.getElementById(id)
+        var instanceModal = M.Modal.getInstance(modal);
+        instanceModal.close();
+    }
+
     handleEvent(object: Event): void {
-        let tipoEvento: string = object.type;
         let objEvento: HTMLElement;
         objEvento = <HTMLElement>object.target;
         if (objEvento.id.startsWith("editar_")) {
             let idDisp: number = +objEvento.id.substring(7);
             this.getDeviceFromServer(idDisp, "edit");
-            
-            let modalEditar = document.getElementById("modal-editar")
-            var instanceModalEditar = M.Modal.getInstance(modalEditar);
-            instanceModalEditar.open();
+            this.openModal("modal-editar");    
         
         } else if (objEvento.id.startsWith("borrar_")) {
             let idDisp: number = +objEvento.id.substring(7);
             this.getDeviceFromServer(idDisp, "delete");
-            
-            let modalBorrar = document.getElementById("modal-borrar")
-            var instanceModalBorrar = M.Modal.getInstance(modalBorrar);
-            instanceModalBorrar.open();
+            this.openModal("modal-borrar");
 
         //EDITAR
         } else if (objEvento.id == "cancelar-modal-editar") {
-            let modalEditar = document.getElementById("modal-editar");
-            let instanceModalEditar= M.Modal.getInstance(modalEditar);
-            instanceModalEditar.close();
+            this.closeModal("modal-editar");
 
         } else if (objEvento.id == "confirmar-modal-editar") {
             let idDisp: number = +(<HTMLInputElement>document.getElementById("edit-id-disp")).value;
@@ -140,9 +144,7 @@ class Main implements EventListenerObject, HandleResponse{
 
         //AGREGAR
         } else if (objEvento.id == "cancelar-modal-agregar") {
-            let modalAgregar = document.getElementById("modal-agregar");
-            let instanceModalAgregar = M.Modal.getInstance(modalAgregar);
-            instanceModalAgregar.close();
+            this.closeModal("modal-agregar");
 
         } else if (objEvento.id == "confirmar-modal-agregar") {
             let name = (<HTMLInputElement>document.getElementById("txt-name")).value;
@@ -157,9 +159,7 @@ class Main implements EventListenerObject, HandleResponse{
 
         //BORRAR
         } else if (objEvento.id == "cancelar-modal-borrar") {
-            let modalBorrar = document.getElementById("modal-borrar");
-            let instanceModalBorrar = M.Modal.getInstance(modalBorrar);
-            instanceModalBorrar.close();
+            this.closeModal("modal-borrar");
         
         } else if (objEvento.id == "confirmar-modal-borrar") {
             let idDispToDelete: number = +(<HTMLInputElement>document.getElementById("input-id-borrar")).value;

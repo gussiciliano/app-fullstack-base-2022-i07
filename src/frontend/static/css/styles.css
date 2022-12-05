@@ -9,7 +9,6 @@ main {
     flex: 1 0 auto;
 }
 
-
 img.imgloanding{
     width: 100px;
     height: 60px;
@@ -17,6 +16,7 @@ img.imgloanding{
     top:  30%;
     left: 50%;
 }
+
 span.negrita{
     color: brown;
     font-weight: bold;
@@ -25,4 +25,52 @@ span.negrita{
 .rojo{
     color: brown;
     background-color: brown;
+}
+
+.background-blue {
+    background-color:#124580
+}
+
+.margin-logo {
+    margin-left: 15px;
+}
+
+.modal-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button-margin {
+    margin: 20px !important;
+}
+
+.icon-margin {
+    margin-top: 30px;
+}
+
+.custom-padding {
+    padding: .75rem .75rem !important;
+}
+
+.margin-zero {
+    margin:0;
+}
+
+.span-vertical {
+    vertical-align: top;
+}
+
+.device-container {
+    border: #3174df;
+    border-width: 3px;
+    border-style: solid;
+}
+
+.btn-padding {
+    padding: 0 10px;
+}
+
+#modal-borrar {
+    width: 25%;
 }

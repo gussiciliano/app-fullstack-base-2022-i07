@@ -64,13 +64,4 @@ class Framework{
     xmlHttp.open(metodo, url, true);
     xmlHttp.send();
   }
-
-  public mostrarCargando() {
-    let imgLoading = document.getElementById("loading");
-    imgLoading.hidden = false;
-  }
-  public ocultarCargando() {
-    let imgLoading = document.getElementById("loading");
-    imgLoading.hidden = true;
-  }
 }
