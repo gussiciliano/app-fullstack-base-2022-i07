@@ -30,8 +30,8 @@ app.get('/devices/:id', function(req, res, next) {
 });
 
 app.post('/devices/', function(req, res, next) {
-    utils.query('INSERT INTO `Devices` (`name`, `description`, `state`, `type`) VALUES (?, ?, ?, ?)',
-        [req.body.name, req.body.description, req.body.state, req.body.type],
+    utils.query('INSERT INTO `Devices` (`name`, `description`, `state`, `type`, `range`) VALUES (?, ?, ?, ?, ?)',
+        [req.body.name, req.body.description, req.body.state, req.body.type, req.body.range],
         function(err, rta, field) {
             if (err) {
                 res.send(err).status(400);
@@ -43,8 +43,8 @@ app.post('/devices/', function(req, res, next) {
 });
 
 app.put('/devices/:id', function(req, res, next) {
-    utils.query('UPDATE `Devices` SET `name` = ?, `description` = ?, `state` = ?, `type` = ? WHERE id = ?',
-        [req.body.name, req.body.description, req.body.state, req.body.type, req.params.id],
+    utils.query('UPDATE `Devices` SET `name` = ?, `description` = ?, `state` = ?, `type` = ?, `range` = ? WHERE id = ?',
+        [req.body.name, req.body.description, req.body.state, req.body.type, req.body.range, req.params.id],
         function(err, rta, field) {
             if (err) {
                 res.send(err).status(400);
