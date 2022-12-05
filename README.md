@@ -15,11 +15,11 @@ Se desarrolló el ABM completo de los dispositivos, agregando el atributo de la 
 
 Backend:
 
-GET http://localhost:8000/devices
-GET http://localhost:8000/devices/:id
-POST http://localhost:8000/devices (enviando en json body del objeto device sin contar id y status)
-PUT http://localhost:8000/devices/:id (enviando en json body del objeto device sin contar id)
-DELETE http://localhost:8000/devices/:id
+GET http://localhost:8000/devices <br>
+GET http://localhost:8000/devices/:id <br>
+POST http://localhost:8000/devices (enviando en json body del objeto device sin contar id y status) <br>
+PUT http://localhost:8000/devices/:id (enviando en json body del objeto device sin contar id) <br>
+DELETE http://localhost:8000/devices/:id <br>
 
 El Backend está integrado con la DB de Docker.
 
@@ -27,7 +27,9 @@ El Backend está integrado con la DB de Docker.
 
 Frontend:
 
-Se utilizó materialize y los patrones vistos en el curso. El front está totalmente integrado con el Backend.
+Se utilizó materialize y los patrones vistos en el curso. El front está totalmente integrado con el Backend.<br>
+
+<img width="1278" alt="Screen Shot 2022-12-05 at 19 24 48" src="https://user-images.githubusercontent.com/19696200/205756078-b48d9faf-1362-4e55-92fc-d03526109825.png">
 
 Al entrar se pueden ver todos los dispositivos, más un botón de AGREGAR para crear uno nuevo. En cada dispositivo hay dos botones, uno para EDITAR y otro para BORRAR.
 
