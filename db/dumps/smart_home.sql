@@ -37,20 +37,21 @@ CREATE TABLE `Devices` (
   `name` varchar(64) NOT NULL,
   `description` varchar(128) NOT NULL,
   `state` int(11) NOT NULL,
-  `type` int(11) NOT NULL
+  `type` int(11) NOT NULL,
+  `range` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `Devices`
 --
 
-INSERT INTO `Devices` (`id`, `name`, `description`, `state`, `type`) VALUES
-(1, 'Lampara 1', 'Luz living', 1, 0),
-(2, 'Lampara 2', 'Luz cocina', 0, 0),
-(3, 'Velador', 'Velador living', 1, 0),
-(4, 'Persiana 1', 'Persiana living', 1, 1),
-(5, 'Persiana 2', 'Persiana de la cocina', 1, 1),
-(6, 'Persiana 3', 'Persiana balcon', 0, 1);
+INSERT INTO `Devices` (`id`, `name`, `description`, `state`, `type`, `range`) VALUES
+(1, 'Lampara 1', 'Luz living', 1, 0, 0),
+(2, 'Lampara 2', 'Luz cocina', 0, 0, 10),
+(3, 'Velador', 'Velador living', 1, 0, 20),
+(4, 'Persiana 1', 'Persiana living', 1, 1, 30),
+(5, 'Persiana 2', 'Persiana de la cocina', 1, 1, 40),
+(6, 'Persiana 3', 'Persiana balcon', 0, 1, 50);
 
 --
 -- Indexes for dumped tables

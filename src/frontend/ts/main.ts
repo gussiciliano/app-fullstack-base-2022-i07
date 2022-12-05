@@ -12,13 +12,13 @@ class Main implements EventListenerObject, HandleResponse{
         this.framework.ejecutarDeleteRequest("DELETE", `http://localhost:8000/devices/${idDisp}`,this);
     }
 
-    addNewDeviceFromServer(name: string, description: string, type: string) {
-        let newDevice = { name: name, description: description,  type: type, state: 1};
+    addNewDeviceFromServer(name: string, description: string, type: string, range: string) {
+        let newDevice = { name: name, description: description,  type: type, range: range, state: 1};
         this.framework.ejecutarAgregarRequest("POST", `http://localhost:8000/devices`,this, newDevice);
     }
 
-    editDeviceFromServer(idDisp: number, name: string, description: string, type: string, state: number) {
-        let editedDevice = { name: name, description: description,  type: type, state: state};
+    editDeviceFromServer(idDisp: number, name: string, description: string, type: string, range: string, state: number) {
+        let editedDevice = { name: name, description: description,  type: type, range: range, state: state};
         this.framework.ejecutarAgregarRequest("PUT", `http://localhost:8000/devices/${idDisp}`,this, editedDevice);
     }
 
@@ -57,8 +57,15 @@ class Main implements EventListenerObject, HandleResponse{
                 grilla += `<input disabled type="checkbox">`;    
             }
             grilla +=`<span class="lever"></span>
-                     </label>
-                     </div>
+                    </label>
+                    </div>
+                    <br/>
+                    <div>
+                        <span>Intensidad:</span>
+                        <p class="range-field">
+                            <input disabled type="range" id="range-light" min="0" max="100" value="${device.range}" />
+                        </p>
+                    </div>
                 </div>
                 <div class="card-action">
                     <button class="btn-padding btn waves-effect waves-light button-view" id="editar_${device.id}">Editar</button>
@@ -82,6 +89,7 @@ class Main implements EventListenerObject, HandleResponse{
             (<HTMLInputElement>document.getElementById("edit-id-disp")).value = device.id.toString();
             (<HTMLInputElement>document.getElementById("edit-name")).value = device.name;
             (<HTMLInputElement>document.getElementById("edit-description")).value = device.description;
+            (<HTMLInputElement>document.getElementById("edit-range-light")).value = device.range.toString();
             (<HTMLInputElement>document.getElementById("edit-status")).checked = device.state;
 
             let select = document.getElementById("select-edit-type");
@@ -130,13 +138,14 @@ class Main implements EventListenerObject, HandleResponse{
             let idDisp: number = +(<HTMLInputElement>document.getElementById("edit-id-disp")).value;
             let name = (<HTMLInputElement>document.getElementById("edit-name")).value;
             let description = (<HTMLInputElement>document.getElementById("edit-description")).value;
+            let range = (<HTMLInputElement>document.getElementById("edit-range-light")).value;
             let type = (<HTMLInputElement>document.getElementById("select-edit-type")).value;
             let state = 0;
             if((<HTMLInputElement>document.getElementById("edit-status")).checked){
                 state = 1;
             }
-            if(idDisp && name && description && type) {
-                this.editDeviceFromServer(idDisp, name, description, type, state);
+            if(idDisp && name && description && type && range) {
+                this.editDeviceFromServer(idDisp, name, description, type, range, state);
                 this.refreshAndCloseModal("modal-editar")
             } else {
                 alert("complete todos los campos");
@@ -149,9 +158,10 @@ class Main implements EventListenerObject, HandleResponse{
         } else if (objEvento.id == "confirmar-modal-agregar") {
             let name = (<HTMLInputElement>document.getElementById("txt-name")).value;
             let description = (<HTMLInputElement>document.getElementById("txt-description")).value;
+            let range = (<HTMLInputElement>document.getElementById("txt-range-light")).value;
             let type = (<HTMLInputElement>document.getElementById("select-type")).value;
-            if(name && description && type) {
-                this.addNewDeviceFromServer(name, description, type);
+            if(name && description && type && range) {
+                this.addNewDeviceFromServer(name, description, type, range);
                 this.refreshAndCloseModal("modal-agregar")
             } else {
                 alert("complete todos los campos");
